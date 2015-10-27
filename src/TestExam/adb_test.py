@@ -53,8 +53,7 @@ def StartLogcatIfNecessary(device_id, adb_cmd, base_dir):
         if not error_filter.match(line):
           logging.error(device_id + ':   ' + line)
 
-  logging.info('Starting logcat %d for device %s', logcat_num,
-               device_id)
+  logging.info('Starting logcat %d for device %s', logcat_num, device_id)
   logcat_filename = 'logcat_%s_%03d' % (device_id, logcat_num)
   logcat_file = open(os.path.join(base_dir, logcat_filename), 'w')
   process = subprocess.Popen([adb_cmd, '-s', device_id,

@@ -23,6 +23,7 @@ import logging
 class clsLog:
     def __init__(self,logtype,devLoc):
         self.__strLocaltime = time.localtime()
+        #self.__strFileName = '%d%d%d%d%d%d'.format(self.__strLocaltime[0:6])
         self.__strFileName = '%d%d%d%d%d%d' %(self.__strLocaltime[0:6])
         logging.basicConfig(filename = './log/'+ self.__strFileName +'.log', 
                             filemode = 'w', format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')

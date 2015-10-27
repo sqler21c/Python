@@ -5,12 +5,19 @@ Created on 2015. 10. 22.
 '''
 from Libs import ClsActivity as CLS
 import os, sys
-from uiautomator import Device
+from uiautomator import Device, Adb, AutomatorDevice
 from Libs import SaveToLog as saveLog
 
+instAdb=Adb()
+devSerials= instAdb.devices().keys()
+if len(devSerials) == 1:
+    devSerials = instAdb.device_serial()
+    mstrDevice = devSerials
+else:
+    mstrDevSerial, slavDevSerial = devSerials
+    mstrDevice = Device(mstrDevSerial)
+    SlavDevice = Device(slavDevSerial)
 
-Devicename = '866b652b'
-d = Device(Devicename)
 deviceInfo = d.info
 print(deviceInfo)
 # d.screen.on()

@@ -3,7 +3,7 @@ Created on 2015. 10. 22.
 
 @author: User
 '''
-
+import os
 import string
 import pickle
 import subprocess
@@ -20,6 +20,7 @@ class ADBUtil(threading.Thread):
         self.adb = 'adb '
         self.command = ('devices', 'logcat')
         self.Queue = queue.Queue
+        self.fd = 
 
     def StartLogCat(self):
         '''The body of the tread: read lines and put them on the queue.
