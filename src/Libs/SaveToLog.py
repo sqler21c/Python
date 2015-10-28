@@ -1,21 +1,15 @@
 #!/usr/bin/env python
-# encoding: utf-8
+# -*- coding: utf-8 -*-
 '''
-TestExam.FaileHanld_ex -- shortdesc
-
-TestExam.FaileHanld_ex is a description
-
-It defines classes_and_methods
-
-@author:     user_name
-
+@author:     SUN
 @copyright:  2015 organization_name. All rights reserved.
-
-@license:    license
-
-@contact:    user_email
+@license:    MIT
+@contact:    sqler21c@gmail.com
 @deffield    updated: Updated
 '''
+__author__ = 'SUN(sqler21c@gmail.com)'
+__version__ = '0.0.1'
+
 
 import time
 import logging

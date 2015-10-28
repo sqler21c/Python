@@ -1,10 +1,14 @@
+
+
 '''
 Created on 2015. 10. 22.
 
 @author: User
 '''
-from Libs import ClsActivity as CLS
+
 import os, sys
+from Libs import ClsActivity as CLS
+
 from uiautomator import Device, Adb, AutomatorDevice
 from Libs import SaveToLog as saveLog
 
@@ -12,14 +16,15 @@ instAdb=Adb()
 devSerials= instAdb.devices().keys()
 if len(devSerials) == 1:
     devSerials = instAdb.device_serial()
-    mstrDevice = devSerials
+    mstrDevice = Device(devSerials)
+    mstrInfo = mstrDevice.info
 else:
     mstrDevSerial, slavDevSerial = devSerials
     mstrDevice = Device(mstrDevSerial)
-    SlavDevice = Device(slavDevSerial)
+    slvDevice = Device(slavDevSerial)
+    mstrInfo = mstrDevice.info
+    slvInfo = slvDevice.info
 
-deviceInfo = d.info
-print(deviceInfo)
 # d.screen.on()
 #deviceInfo = d.info
 
@@ -34,7 +39,7 @@ elif deviceInfo['screenOn'] ==False:
 else:
     print('nothing')
 
-Logsave = saveLog.clsLog("dkdk", "dkdk")
-Logsave.SendToLog("dkdk", "trLocDev", "strLogData")
+#Logsave = saveLog.clsLog("dkdk", "dkdk")
+#Logsave.SendToLog("dkdk", "trLocDev", "strLogData")
 
 #d.dump("./tmp/her.xml")
