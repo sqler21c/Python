@@ -11,9 +11,18 @@ from Libs import ClsActivity as CLS
 
 from uiautomator import Device, Adb, AutomatorDevice
 from Libs import SaveToLog as saveLog
+from Libs import ModelInfo
+import Libs.ClsKeyCode
+
 
 instAdb=Adb()
 devSerials= instAdb.devices().keys()
+print(type(devSerials))
+osType = sys.platform
+sndLog = saveLog()
+
+#sndLog = CLS("test", "test")
+
 if len(devSerials) == 1:
     devSerials = instAdb.device_serial()
     mstrDevice = Device(devSerials)
@@ -25,21 +34,15 @@ else:
     mstrInfo = mstrDevice.info
     slvInfo = slvDevice.info
 
-# d.screen.on()
-#deviceInfo = d.info
+sndLog.SendToLog("start")
+
+modinfo = ModelInfo(mstrInfo)
 
 
-for irr in deviceInfo:
-    print(deviceInfo[irr])
 
-if deviceInfo['screenOn'] == True:
-    print('device screen is On('+ str(deviceInfo['screenOn'])+ ')')
-elif deviceInfo['screenOn'] ==False:
-    print(deviceInfo['screenOn'])
-else:
-    print('nothing')
 
-#Logsave = saveLog.clsLog("dkdk", "dkdk")
-#Logsave.SendToLog("dkdk", "trLocDev", "strLogData")
+
+    
+
 
 #d.dump("./tmp/her.xml")
