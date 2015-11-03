@@ -1,11 +1,11 @@
 #import uiautomator as UI
-
+#ClsActivity.py
 from enum import Enum
 
 strMasterDevice = "device"
 strSlavDevice = "device"
 
-class usrDevice:
+class usrDeviceInfo:
     def __init__(self):
         pass
     

@@ -1,4 +1,4 @@
-# -*- encoding : utf-8
+#-*- encoding: utf-8 -*-
 
 '''
 Created on 2015. 10. 29.
@@ -6,13 +6,14 @@ Created on 2015. 10. 29.
 @author: User
 '''
 import sys, os
-from uiautomator import Adb, Device
-import uiautomator
+from uiautomator import Device
+import Libs.GlobalVar
+#Test module
 import Libs.ClsActivity
 import Libs.ClsKeyCode
 import Libs.Adb
 
-
+from testcases.ef63.ef63common import GlobalVar as GLBVAR
 
 
 class ModelInfo():
@@ -47,25 +48,27 @@ class ModelInfo():
           u'naturalOrientation': True
         }
     '''        
+    def getCurrntProductInfo(self):
+        return self.mstrInfo
         
     def getProductNmae(self):
-        return self.mstrInfo['productName'],
+        return self.mstrInfo['productName']
         
     def getCurrntPkg(self):
-        return self.mstrInfo['currentPackageName'],
+        return self.mstrInfo['currentPackageName']
     
     def getSDKInt(self):
-            return self.mstrInfo['sdkInt'],
+            return self.mstrInfo['sdkInt']
         
     def getRotation(self):
-        return self.mstrInfo['displayRotation'],
+        return self.mstrInfo['displayRotation']
     
     
     def getNaturalOri(self):
-        return self.mstrInfo['naturalOrientation'],
+        return self.mstrInfo['naturalOrientation']
     
     def getDisplayState(self):
-        return self.mstrDevice.screen,
+        return self.mstrDevice.screen
                 
     def setReflash(self):
         pass
@@ -239,7 +242,7 @@ class ModelInfo():
         '''
         self.mstrDevice.wait.update()
         
-    def getCurrentInfo(self, text):
+    def getCurrentActivityInfo(self, text):
         '''
           INFOMATION:
               { u'contentDescription': u'',
@@ -268,6 +271,12 @@ class ModelInfo():
         '''  
         return self.mstrDevice(text).info
     
+    def uiObjExist(self,text):
+        '''
+            ture if exists, else False
+        '''
+        return self.mstrDevice.exists(text)
+    
     def watcher(self):
         pass
     def handler(self):
@@ -278,9 +287,13 @@ class ModelInfo():
     def __del__(self):
         pass    
 
+def startTestcase():
+    print('start test case')
+
 if __name__ == '__main__':
     instadb = Libs.Adb.adb()
-    
+    glbVar = GLBVAR()
+        
     if instadb.getDeviceCount() == 1:
         seri = instadb.getSerials()
         testDev=ModelInfo(seri)
@@ -289,7 +302,22 @@ if __name__ == '__main__':
         mstseri, slvseri = seri
         mstDev = ModelInfo(mstseri)
         slvDevice = ModelInfo(slvseri)
-     
-
+        
+    #print(isinstance(testDev.getCurrntPkg(), tuple))
+  
+ 
+    if testDev.getCurrntPkg() == glbVar.strLockPachate:
+        testDev.swipe(200, 600, 700, 600, steps=10)
     
-    
+    if testDev.getCurrntPkg() == glbVar.strHomePackage:
+        ''' start test
+        '''
+        if testDev.exists(text='Settings'):
+            print('pass')
+    #print(testDev.getCurrntPkg())
+    '''   
+    print(testDev.mstrInfo)
+    if str(testDev.getCurrntPkg()) == 'com.android.keyguard':
+        testDev.swipe(300, 600, 700, 600, steps=10)
+    print(testDev.getCurrntPkg())
+    '''

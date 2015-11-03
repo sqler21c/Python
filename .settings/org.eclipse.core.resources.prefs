@@ -1,4 +1,10 @@
 eclipse.preferences.version=1
+encoding//src/Libs/ModelInfo.py=utf-8
 encoding//src/Libs/SaveToLog.py=utf-8
 encoding//src/TestExam/FaileHanld_ex.py=utf-8
+encoding//src/TestExam/chapter4/page163.py=UTF-8
+encoding//src/TestExam/log/sketch.txt=UTF-8
+encoding//src/TestExam/subprocesstest.py=utf-8
 encoding//src/TestExam/test.py=utf-8
+encoding//src/TestExam/threadex.py=utf8
+encoding//src/testcases/ef63/ef63common/GlobalVar.py=utf-8

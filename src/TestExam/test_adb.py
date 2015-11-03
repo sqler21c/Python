@@ -1,47 +1,45 @@
-'''
-Created on 2015. 10. 23.
-
-@author: User
-'''
-import sys
 import queue
-import string
 import subprocess
 import threading
-import logging
-import time
-import os
-import re
-import shutil
-import signal
 
-class TimeoutException(Exception):
-    pass
 
-class SigtermError(Exception):
-    pass
+class AsynchronousFileReader(threading.Thread):
+    '''
+    Helper class to implement asynchronous reading of a file
+    in a separate thread. Pushes read lines on a queue to
+    be consumed in another thread.
+    '''
 
-def getAttachedDevcies(adb_cmd):
-    
-    try:
-        out, err = subprocess.Popen([adb_cmd, 'devices'],
-                                    stdout=subprocess.PIPE,
-                                    stderr=subprocess.PIPE).communicate()
-        if err:
-            logging.warning('adb device error %s', err.strip())
-        
-        return  re.findall('^(\w+)\tdevice$', out, re.MULTILINE)
-    
-    except TimeoutException:
-        logging.warning("Time out exception")
-        return []
-    except (IOError, OSError):
-        logging.warning('Io error')
-        return []
-    finally:
-        print(out, err)
-        pass
+    def __init__(self, fd, queue):
+        assert isinstance(queue, queue.Queue)
+        assert callable(fd.readline)
+        threading.Thread.__init__(self)
+        self._fd = fd
+        self._queue = queue
 
-if __name__ == '__main__':
-    print(getAttachedDevcies(adb_cmd="adb"))
+    def run(self):
+        '''The body of the tread: read lines and put them on the queue.'''
+        for line in iter(self._fd.readline, ''):
+            self._queue.put(line)
+
+    def eof(self):
+        '''Check whether there is no more content to expect.'''
+        return not self.is_alive() and self._queue.empty()
+
+
+# You'll need to add any command line arguments here.
+process = subprocess.Popen(["adb logcat -v time"], stdout=subprocess.PIPE)
+
+# Launch the asynchronous readers of the process' stdout.
+stdout_queue = queue.Queue()
+stdout_reader = AsynchronousFileReader(process.stdout, stdout_queue)
+stdout_reader.start()
+
+# Check the queues if we received some output (until there is nothing more to get).
+while not stdout_reader.eof():
+    while not stdout_queue.empty():
+        line = stdout_queue.get()
+        #if is_fps_line(line):
+        #    update_fps(line)
+        print(line)
     
